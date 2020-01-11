@@ -1,0 +1,61 @@
+datoteke:
+.hea
+.dat
+.atr  # rocne anotacije
+
+sampfreq _
+rdsamp -r _ -f 0
+signame -r _
+
+rdsamp -r s20011 -f 0 -t 2
+
+gnuplot
+   > plot "samples.txt" using 1:2 with lines
+   > reploat "samples.txt" u 1:3 w l
+
+xform -r  # transformacija - prevzorčenje
+xform -i s20011
+xform -i s20011 -a atr
+rdann -r s20011 -a attr
+
+
+primerjali bomo atr in qtr
+
+00:00:00.0 200 N
+
+# -f (from) od katere sekunde
+# -t (to) do katere sekunde
+wfdb2mat -r s20011 -f 10 -t 20  
+
+# Izpisi vse baze
+rsync -av physionet.org:: 
+
+# vse datoteke, ki so navoljo 
+rsync -av physionet.org::ltstdb
+
+# pridobi vse jeader datoteke
+rsync -av physionet.org::ltstdb/*.hea .
+
+# Lahk ouporabimo tudi wget.
+
+## MATLAB ##
+Ce vrednosti na y osi delimo z 200 - vrednosti v milivoltih.
+
+plotATM ... potrebuje se datoteko, ki jo generiramo z:
+pri wfdb2mat -r s20011 -f 10 -t 20 > s20011m.info
+
+Konvolucija:
+
+v1 = [-1 2 -1]
+v2 = [4 3 2 1]
+
+Konvolucija v MATLAB-u:
+
+conv(x1, x2)
+
+% 'same' - zelimo, da je izhod enako dolg kot vhod.
+y = conv(sig1, x2, 'same')
+
+moving average filter
+
+
