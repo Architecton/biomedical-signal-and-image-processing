@@ -1,5 +1,5 @@
 
-function [] = main(data_folder_path, imgs_idxs)
+function [] = main(data_folder_path, imgs_idxs, t_high, t_low)
     % function [] = main(data_folder_path, imgs_idxs)
     %
     % Main functionality for the second assignment. The parameter 
@@ -23,7 +23,7 @@ function [] = main(data_folder_path, imgs_idxs)
     end
     
     % Perform Canny edge detection using 24-connectivity.
-    [res_linked, res_unlinked] = canny3d(images_seq, 1, 8, 5);
+    [res_linked, res_unlinked] = canny3d(images_seq, 1, t_high, t_low);
     
     % Check if res folder exists in dataset folder. If not, create it.
     if ~exist(strcat(data_folder_path, 'res/'), 'dir')

@@ -1,1 +1,0 @@
-Save processed images to .png files.
