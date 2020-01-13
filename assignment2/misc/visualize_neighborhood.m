@@ -1,4 +1,9 @@
+
 function [] = visualize_neighborhood(image)
+    % function [] = visualize_neighborhood(image)
+    %
+    % Visualization function used to visualizea sample neighborhood for 
+    % 24-connectivity.
     
     % Plot image.
     imagesc(image);
@@ -15,3 +20,4 @@ function [] = visualize_neighborhood(image)
     colormap gray;
     
 end
+

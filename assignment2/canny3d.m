@@ -1,7 +1,14 @@
-function [res, processed_images] = canny3d(imgs, sigma, t_high, t_low)
 
-    % Convert images into a tensor.
-    
+function [res, processed_images] = canny3d(imgs, sigma, t_high, t_low)
+    % function [res, processed_images] = canny3d(imgs, sigma, t_high, t_low)
+    %
+    % Perform Canny edge detection on a sequence of images and link them 
+    % using 24-connectivity. The parameter imgs specifies the tensor of 
+    % images to use. The parameter sigma specifies the width of the kernel 
+    % used for Gaussian smoothing. The parameter t_high specifies the high 
+    % threshold for hysteresis thresholding. The parameter t_low specifies 
+    % the low threshold for hysteresis thresholding.
+
     % Allocate array for storing processed images.
     processed_images = zeros(size(imgs));
     
@@ -25,8 +32,11 @@ function [res, processed_images] = canny3d(imgs, sigma, t_high, t_low)
 end
 
 
-
 function [img] = connect_image(img, neighborhood_center)
+    % function [img] = connect_image(img, neighborhood_center)
+    %
+    % Connect image n+1 with pixel on image n that is located at
+    % position specified by parameter neighborhood_center.
 
     % Get local indices for 1-pixels in neighborhood.
     [idxs1_local, idxs2_local] = ind2sub([5, 5], ...
@@ -67,6 +77,10 @@ end
 
 
 function [img2_res] = connectivity24(img1, img2)
+    % function [img2_res] = connectivity24(img1, img2)
+    %
+    % Connect images n and n+1 using 24-connectivity.
+
     % Padd images with zeros to avoid out of bounds issues.
     img1_padded = padarray(img1, [2, 2], 0);
     img2_padded = padarray(img2, [2, 2], 0);
@@ -92,3 +106,4 @@ function [img2_res] = connectivity24(img1, img2)
     % Remove padding to get connected image.
     img2_res = img2_padded(3:end-2, 3:end-2);
 end
+

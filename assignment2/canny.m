@@ -1,4 +1,13 @@
+
 function [Ie] = canny(I, sigma, t_high, t_low)
+    % function [Ie] = canny(I, sigma, t_high, t_low)
+    %
+    % Performedge detection using the Canny algorithm. parameter sigma
+    % specifies the width of the kernel used for Gaussian smoothing.
+    % The parameter t_high specifies the high threshold for hysteresis
+    % thresholding. The parameter t_low specifies the low threshold for
+    % hysteresis thresholding.
+
     % Get gradient map.
 	[Imag, Idir] = image_gradient(I, sigma);
     
@@ -10,11 +19,11 @@ function [Ie] = canny(I, sigma, t_high, t_low)
 end
 
 
-% function [Imag, Idir] = image_gradient(I, sigma)
-%
-% Compute matrix of gradient magnitudes	and matrix of derivative angles.
-% The gaussian kernel is constructed with a standard deviation of sigma.
 function [Imag, Idir] = image_gradient(I, sigma)
+    % function [Imag, Idir] = image_gradient(I, sigma)
+    %
+    % Compute matrix of gradient magnitudes	and matrix of derivative angles.
+    % The gaussian kernel is constructed with a standard deviation of sigma.
 
     % Compute partial derivatives.
 	[Ix, Iy] = image_derivatives(I, sigma);
@@ -27,11 +36,11 @@ function [Imag, Idir] = image_gradient(I, sigma)
 end
 
 
-% function [Ix, Iy] = image_derivatives(I, sigma)
-% 
-% Compute partial derivatives of image I. The gaussian kernel is
-% constructed using a standard deviation of sigma.
 function [Ix, Iy] = image_derivatives(I, sigma)
+    % function [Ix, Iy] = image_derivatives(I, sigma)
+    % 
+    % Compute partial derivatives of image I. The gaussian kernel is
+    % constructed using a standard deviation of sigma.
 
     % Compute kernels.
 	dg = gaussdx(sigma);
@@ -51,12 +60,12 @@ function [Ix, Iy] = image_derivatives(I, sigma)
 end
 
 
-% function k = gaussdx(sigma)
-%
-% Compute kernel representing the convolution of the gaussian kernel and
-% the derivation kernel. The parameter sigma specifies the standard
-% deviation used in the construction of the gaussian kernel.
 function k = gaussdx(sigma)
+    % function k = gaussdx(sigma)
+    %
+    % Compute kernel representing the convolution of the gaussian kernel and
+    % the derivation kernel. The parameter sigma specifies the standard
+    % deviation used in the construction of the gaussian kernel.
 
     % Get gaussian kernel.
 	g = gauss(sigma);  % Get gaussian kernel.
@@ -71,10 +80,11 @@ function k = gaussdx(sigma)
 	k = k ./ sum(abs(k));
 end
 
-% function [g, x] = gauss(sigma)
-% Compute gaussian kernel over [-3*sigma, 3*sigma]
-%
+
 function [g, x] = gauss(sigma)
+    % function [g, x] = gauss(sigma)
+    %
+    % Compute gaussian kernel over [-3*sigma, 3*sigma]
 
     % Compute domain values.
 	x = -round(3.0*sigma):round(3.0*sigma);
@@ -87,12 +97,12 @@ function [g, x] = gauss(sigma)
 end
 
 
-% function Imax = nonmaxima_suppression_line(Imag, Idir)
-%
-% Implementation of thinning by non-maxima suppresion. Create an image that
-% only contains the local maxima of lines present in matrix of gradient
-% magnitudes.
 function Imax = nonmaxima_suppression(Imag, Idir)
+    % function Imax = nonmaxima_suppression_line(Imag, Idir)
+    %
+    % Implementation of thinning by non-maxima suppresion. Create an image that
+    % only contains the local maxima of lines present in matrix of gradient
+    % magnitudes.
     
     % Get height and width of image.
 	[h, w] = size(Imag);
@@ -147,10 +157,10 @@ function Imax = nonmaxima_suppression(Imag, Idir)
 end
 
 
-% function [Ie] = hysteresis_tresh(Imag, thigh, tlow)
-%
-% Apply histeresis tresholding to image I and return result.
 function [Ie] = hysteresis_tresh(Imag, t_high, t_low)
+    % function [Ie] = hysteresis_tresh(Imag, thigh, tlow)
+    %
+    % Apply histeresis tresholding to image I and return result.
 
 	% Get regions that are above the high treshold.
 	high_mask = Imag>t_high; 
@@ -169,3 +179,4 @@ function [Ie] = hysteresis_tresh(Imag, t_high, t_low)
     % Set pixels corresponding to detected edges to 1.
 	Ie(idx) = 1; 
 end
+
